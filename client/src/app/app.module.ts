@@ -1,8 +1,10 @@
+import { ErrorInterceptor } from './_interceptors/error.interceptor';
+import { JwtInterceptor } from './_interceptors/jwt.interceptor';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import {HttpClientModule} from '@angular/common/http';
+import {HttpClientModule, HTTP_INTERCEPTORS} from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NavComponent } from './nav/nav.component';
 import { FormsModule } from '@angular/forms';
@@ -14,6 +16,13 @@ import { MemberDetailComponent } from './members/member-detail/member-detail.com
 import { ListsComponent } from './lists/lists.component';
 import { MessagesComponent } from './messages/messages.component';
 import { ToastrModule} from 'ngx-toastr';
+import { MemberCardComponent } from './members/member-card/member-card.component';
+import { TabsModule} from 'ngx-bootstrap/tabs';
+import { NgxGalleryModule } from '@kolkov/ngx-gallery';
+import { TestErrorsComponent } from './errors/test-errors/test-errors.component';
+import { NotFoundComponent } from './errors/not-found/not-found.component';
+import { ServerErrorComponent } from './errors/server-error/server-error.component';
+import { MemberEditComponent } from './members/member-edit/member-edit.component';
 
 
 @NgModule({
@@ -26,6 +35,11 @@ import { ToastrModule} from 'ngx-toastr';
     MemberDetailComponent,
     ListsComponent,
     MessagesComponent,
+    MemberCardComponent,
+    TestErrorsComponent,
+    NotFoundComponent,
+    ServerErrorComponent,
+    MemberEditComponent,
     
   ],
   imports: [
@@ -37,9 +51,14 @@ import { ToastrModule} from 'ngx-toastr';
     BsDropdownModule.forRoot(),
     ToastrModule.forRoot({
       positionClass : 'toast-bottom-right'
-    })
+    }),
+    TabsModule.forRoot(),
+    NgxGalleryModule
+    ],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi:true},
+    { provide:HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi:true}
   ],
-  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

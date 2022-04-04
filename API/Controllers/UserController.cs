@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace API.Controllers
 {
-    [Authorize]
+   
     public class UserController : BaseController
     {
         private readonly IMapper _mapper;
